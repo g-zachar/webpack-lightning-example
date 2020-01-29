@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webpack App</title>
+  </head>
+  <body>
+      <div id='log'></div>
+      <script>
+          (function () {
+          if (!console) {
+              console = {};
+          }
+          var old = console.log;
+          var logger = document.getElementById('log');
+          console.log = function (message) {
+              if (typeof message == 'object') {
+                  logger.innerHTML += 'LOG: ' + (JSON && JSON.stringify ? JSON.stringify(message) : String(message)) + '<br />';
+              } else {
+                  logger.innerHTML += 'LOG: ' + message + '<br />';
+              }
+          }
+          console.error = function (message) {
+              if (typeof message == 'object') {
+                  logger.innerHTML += 'ERROR: ' + (JSON && JSON.stringify ? JSON.stringify(message) : String(message)) + '<br />';
+              } else {
+                  logger.innerHTML += 'ERROR: ' + message + '<br />';
+              }
+          }
+          console.warn = function (message) {
+              if (typeof message == 'object') {
+                  logger.innerHTML += 'WARN: ' + (JSON && JSON.stringify ? JSON.stringify(message) : String(message)) + '<br />';
+              } else {
+                  logger.innerHTML += 'WARN: ' + message + '<br />';
+              }
+          }
+      })();
+      console.log('logger active');
+      </script>
+      <script>
+          console.log('xhr lng load ...')
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'node_modules/wpe-lightning/dist/lightning.es5.js');
+          xhr.onload = function() {
+            console.log('xhr lng load [complete]')
+              try {
+                  eval(xhr.response);
+              } catch (e) {
+                  console.log(e.stack);
+              }
+      
+              console.log(lng)
+          }
+          xhr.send()
+      </script>
+</html>
